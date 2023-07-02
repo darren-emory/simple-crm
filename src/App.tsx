@@ -1,25 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://aubhbxjhaejjitgtfkfb.supabase.co",
+  import.meta.env.VITE_API as string
+);
 
 function App() {
+  const [users, setUsers] = useState<[] | null>(null);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  async function fetchUsers() {
+    const { data } = await supabase.from("users").select();
+    setUsers(data as any);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {users ? (
+        users.map((user: any) => (
+          <div key={user.id}>
+            <img width={50} src={user.picture_url} />
+            <p>
+              {user.first_name} {user.last_name}
+            </p>
+          </div>
+        ))
+      ) : (
+        <p>No Users Loaded</p>
+      )}
+    </>
   );
 }
 
