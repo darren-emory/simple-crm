@@ -1,16 +1,12 @@
-export interface User {
-  id: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
+export interface IUser {
+  id: number;
+  title: string;
+  first_name: string;
+  last_name: string;
 
-  location: {
-    city: string;
-    state: string;
-    country: string;
-  };
+  city: string;
+  state: string;
+  country: string;
 
   email: string;
   phone: string;
