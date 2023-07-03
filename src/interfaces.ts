@@ -1,4 +1,5 @@
 export interface User {
+  id: string;
   name: {
     title: string;
     first: string;
@@ -17,4 +18,5 @@ export interface User {
 
   // 0: prospect, 1: lead, 2: pitched, 3: accepted, 4: under review, 5: closed
   status: number;
+  isArchived: boolean;
 }
