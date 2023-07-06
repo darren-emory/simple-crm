@@ -41,7 +41,7 @@ export function UserList() {
   }, []);
 
   useEffect(() => {
-    let updatedUsers = filteredUsers?.filter((user: IUser) => {
+    let updatedUsers = users?.filter((user: IUser) => {
       if (filterKeyword === "") return filteredUsers;
       if (
         (user.first_name &&
