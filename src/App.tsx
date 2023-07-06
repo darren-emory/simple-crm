@@ -8,7 +8,6 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { TbAsteriskSimple } from "react-icons/Tb";
 import "./styles/styles.scss";
 
 function App() {
@@ -36,7 +35,6 @@ function App() {
               justifyContent={["center", null, "flex-start"]}
             >
               <Flex alignItems="center" gap="1">
-                <TbAsteriskSimple size="2.5em" color="#BEE3F8" />
                 <Heading size="lg">
                   <Text color="blue.700">Simple CRM</Text>
                 </Heading>

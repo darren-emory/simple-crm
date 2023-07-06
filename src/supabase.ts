@@ -15,7 +15,7 @@ export async function fetchUsers() {
 
 // fetch individual user
 export async function fetchUser(id: number) {
-  const { data, error } = await supabase.from("users").select().eq("id", id);
+  const { data } = await supabase.from("users").select().eq("id", id);
   return data as any;
 }
 
@@ -48,6 +48,6 @@ export async function insertUser(user: IUser) {
 
 // delete individual user
 export async function deleteUser(id: number) {
-  const { data, error } = await supabase.from("users").delete().eq("id", id);
+  const { data } = await supabase.from("users").delete().eq("id", id);
   return data as any;
 }

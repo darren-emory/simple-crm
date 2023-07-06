@@ -6,7 +6,6 @@ import { SimpleGrid } from "@chakra-ui/react";
 
 export function Dashboard() {
   const [users, setUsers] = useState<IUser[] | null>(null);
-  const [totalStats, setTotalStats] = useState<any>(null);
   const [ready, setReady] = useState(false);
 
   const [totalProspects, setTotalProspects] = useState(0);

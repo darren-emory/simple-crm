@@ -2,7 +2,6 @@ import { IUser } from "../interfaces.ts";
 import { Link as RouterLink } from "react-router-dom";
 import {
   Avatar,
-  Badge,
   Box,
   Button,
   ButtonGroup,

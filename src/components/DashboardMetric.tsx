@@ -1,6 +1,4 @@
-import { useEffect } from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { RenderStatus } from "../components/RenderStatus.tsx";
 import { Link } from "react-router-dom";
 
 interface DashboardMetricProps {
