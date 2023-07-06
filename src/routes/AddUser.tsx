@@ -13,11 +13,13 @@ import {
   InputLeftAddon,
   Select,
   SimpleGrid,
+  useToast,
 } from "@chakra-ui/react";
 
 function AddUser() {
   const [user, setUser] = useState<any | null>({ status: "Prospect" });
   const navigate = useNavigate();
+  const toast = useToast();
 
   const updateValue = (key: string, value: string) => {
     setUser({
@@ -27,9 +29,14 @@ function AddUser() {
   };
 
   const handleSubmit = () => {
-    insertUser(user as IUser).then((response) =>
-      navigate(`../user/${response[0].id}`)
-    );
+    insertUser(user as IUser, () =>
+      toast({
+        title: "User Added",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      })
+    ).then((response) => navigate(`../user/${response[0].id}`));
   };
 
   return (
@@ -133,6 +140,7 @@ function AddUser() {
               <Select
                 placeholder="Select status"
                 onChange={(e) => updateValue("status", e.target.value)}
+                value={user.status}
               >
                 {[
                   "Prospect",
@@ -143,7 +151,7 @@ function AddUser() {
                   "Closed",
                 ].map((option) =>
                   user.status === option ? (
-                    <option key={option} value={option} selected>
+                    <option key={option} value={option}>
                       {option}
                     </option>
                   ) : (

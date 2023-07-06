@@ -14,13 +14,18 @@ export async function fetchUsers() {
 }
 
 // fetch individual user
-export async function fetchUser(id: number) {
-  const { data } = await supabase.from("users").select().eq("id", id);
-  return data as any;
+export async function fetchUser(id: number, cb?: any) {
+  const { data, error } = await supabase.from("users").select().eq("id", id);
+  if (error) {
+    console.warn(error);
+  } else if (data) {
+    cb && cb();
+    return data as any;
+  }
 }
 
 // update individual user
-export async function updateUser(user: IUser) {
+export async function updateUser(user: IUser, cb?: any) {
   const { error } = await supabase
     .from("users")
     .update({
@@ -37,17 +42,30 @@ export async function updateUser(user: IUser) {
       isArchived: user.isArchived,
     })
     .eq("id", user.id);
-  return error as any;
+  if (error) {
+    console.warn(error);
+  } else {
+    cb && cb();
+  }
 }
 
 // create individual user
-export async function insertUser(user: IUser) {
-  const { data } = await supabase.from("users").insert(user).select();
-  return data as any;
+export async function insertUser(user: IUser, cb?: any) {
+  const { data, error } = await supabase.from("users").insert(user).select();
+  if (error) {
+    console.warn(error);
+  } else if (data) {
+    cb && cb();
+    return data as any;
+  }
 }
 
 // delete individual user
-export async function deleteUser(id: number) {
-  const { data } = await supabase.from("users").delete().eq("id", id);
-  return data as any;
+export async function deleteUser(id: number, cb?: any) {
+  const { error } = await supabase.from("users").delete().eq("id", id);
+  if (error) {
+    console.warn(error);
+  } else {
+    cb && cb();
+  }
 }

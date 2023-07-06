@@ -14,6 +14,7 @@ import {
   InputLeftAddon,
   Select,
   SimpleGrid,
+  useToast,
 } from "@chakra-ui/react";
 
 function EditUser() {
@@ -21,6 +22,7 @@ function EditUser() {
   const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
 
   const params: any = useParams();
+  const toast = useToast();
   const userId = params.userId;
 
   const navigate = useNavigate();
@@ -39,16 +41,26 @@ function EditUser() {
   };
 
   const handleEdit = () => {
-    updateUser(user as IUser)
-      .then((response) => console.log(response))
-      .then(() => navigate(`../user/${user?.id}`));
+    updateUser(user as IUser, () =>
+      toast({
+        title: "User Updated",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      })
+    ).then(() => navigate(`../user/${user?.id}`));
   };
 
   const handleDelete = () => {
     user &&
-      deleteUser(user.id)
-        .then((response) => console.log(response))
-        .then(() => navigate(`../userlist/`));
+      deleteUser(user.id, () =>
+        toast({
+          title: "User Deleted",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        })
+      ).then(() => navigate(`../userlist/`));
   };
 
   return (
@@ -152,6 +164,7 @@ function EditUser() {
                 <InputLeftAddon children="Status" />
                 <Select
                   placeholder="Select status"
+                  value={user.status}
                   onChange={(e) => updateValue("status", e.target.value)}
                 >
                   {[
@@ -163,7 +176,7 @@ function EditUser() {
                     "Closed",
                   ].map((option) =>
                     user.status === option ? (
-                      <option key={option} value={option} selected>
+                      <option key={option} value={option}>
                         {option}
                       </option>
                     ) : (
