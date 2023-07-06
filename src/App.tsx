@@ -1,5 +1,14 @@
 import { Outlet, Link } from "react-router-dom";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Tab,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
+import { TbAsteriskSimple } from "react-icons/Tb";
 import "./styles/styles.scss";
 
 function App() {
@@ -14,26 +23,50 @@ function App() {
         overflow="hidden"
         style={{ marginLeft: "auto", marginRight: "auto" }}
       >
-        <Flex>
-          {/* Sidebar  */}
-          <Box
-            bgColor="white"
-            p={10}
-            w={["100%", "400px"]}
-            borderRightColor={"#ece9eb"}
-            borderRightWidth={1}
-          >
-            <Box>
-              <h1>My new app!</h1>
-              <Link to={"../dashboard"}>Dashboard</Link>
-            </Box>
-          </Box>
+        {/* Top bar */}
+        <Box
+          bgColor="white"
+          p={[5, null, 10]}
+          borderBottomColor={"#ece9eb"}
+          borderBottomWidth={1}
+        >
+          <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={3}>
+            <Flex
+              mb={["20px", null, ""]}
+              justifyContent={["center", null, "flex-start"]}
+            >
+              <Flex alignItems="center" gap="1">
+                <TbAsteriskSimple size="2.5em" color="#BEE3F8" />
+                <Heading size="lg">
+                  <Text color="blue.700">Simple CRM</Text>
+                </Heading>
+              </Flex>
+            </Flex>
 
-          {/* Main Content */}
-          <Box bgColor="#f5f5f8" p={10} w={"100%"}>
-            <Outlet />
-          </Box>
-        </Flex>
+            <Flex justifyContent={["center", null, "flex-end"]}>
+              <Tabs
+                orientation="vertical"
+                colorScheme="gray"
+                variant="soft-rounded"
+              >
+                <Link to={"../dashboard"}>
+                  <Tab>Dashboard</Tab>
+                </Link>
+                <Link to={"../userlist/"}>
+                  <Tab>Directory</Tab>
+                </Link>
+                <Link to={"../user/add"}>
+                  <Tab>Add</Tab>
+                </Link>
+              </Tabs>
+            </Flex>
+          </SimpleGrid>
+        </Box>
+
+        {/* Main Content */}
+        <Box bgColor="#f5f5f8" p={[2, null, 10]} w={"100%"}>
+          <Outlet />
+        </Box>
       </Box>
     </>
   );

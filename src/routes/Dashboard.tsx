@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 import { fetchUsers } from "../supabase";
-import { Link } from "react-router-dom";
+import { DashboardMetric } from "../components/DashboardMetric.tsx";
+import { IUser } from "../interfaces.ts";
+import { SimpleGrid } from "@chakra-ui/react";
 
 export function Dashboard() {
-  const [users, setUsers] = useState<[] | null>(null);
+  const [users, setUsers] = useState<IUser[] | null>(null);
+  const [totalStats, setTotalStats] = useState<any>(null);
+  const [ready, setReady] = useState(false);
+
+  const [totalProspects, setTotalProspects] = useState(0);
+  const [totalLeads, setTotalLeads] = useState(0);
+  const [totalPitched, setTotalPitched] = useState(0);
+  const [totalAccepted, setTotalAccepted] = useState(0);
+  const [totalUnderReview, setTotalUnderReview] = useState(0);
+  const [totalClosed, setTotalClosed] = useState(0);
 
   useEffect(() => {
     fetchUsers().then((results) => {
@@ -11,21 +22,58 @@ export function Dashboard() {
     });
   }, []);
 
+  useEffect(() => {
+    !ready && calculateStats(), [users];
+  });
+
+  const calculateStats = () => {
+    let totalUsers = 0;
+    // go thru each user and add up the user.status field to each appropriate total
+    users?.forEach((user) => {
+      switch (user.status) {
+        case "Prospect":
+          setTotalProspects((prev) => prev + 1);
+          break;
+        case "Lead":
+          setTotalLeads((prev) => prev + 1);
+          break;
+        case "Pitched":
+          setTotalPitched((prev) => prev + 1);
+          break;
+        case "Accepted":
+          setTotalAccepted((prev) => prev + 1);
+          break;
+        case "Under Review":
+          setTotalUnderReview((prev) => prev + 1);
+          break;
+        case "Closed":
+          setTotalClosed((prev) => prev + 1);
+          break;
+        default:
+          break;
+      }
+
+      totalUsers++;
+    });
+
+    if (totalUsers === users?.length) {
+      setReady(true);
+    }
+  };
+
   return (
     <>
-      {users ? (
-        users.map((user: any) => (
-          <div key={user.id}>
-            <Link to={`../user/${user.id}`}>
-              <img width={50} src={user.picture_url} />
-            </Link>
-            <p>
-              {user.first_name} {user.last_name}
-            </p>
-          </div>
-        ))
+      {ready ? (
+        <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={3}>
+          <DashboardMetric value={totalProspects} label="Prospect" />
+          <DashboardMetric value={totalLeads} label="Lead" />
+          <DashboardMetric value={totalPitched} label="Pitched" />
+          <DashboardMetric value={totalAccepted} label="Accepted" />
+          <DashboardMetric value={totalUnderReview} label="Under Review" />
+          <DashboardMetric value={totalClosed} label="Closed" />
+        </SimpleGrid>
       ) : (
-        <p>No Users Loaded</p>
+        <></>
       )}
     </>
   );

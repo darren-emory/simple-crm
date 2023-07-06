@@ -10,9 +10,9 @@ export interface IUser {
 
   email: string;
   phone: string;
-  pictureUrl: string;
+  picture_url: string;
 
   // 0: prospect, 1: lead, 2: pitched, 3: accepted, 4: under review, 5: closed
-  status: number;
+  status: string;
   isArchived: boolean;
 }

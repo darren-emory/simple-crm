@@ -33,8 +33,21 @@ export async function updateUser(user: IUser) {
       email: user.email,
       phone: user.phone,
       status: user.status,
+      picture_url: user.picture_url,
       isArchived: user.isArchived,
     })
     .eq("id", user.id);
   return error as any;
+}
+
+// create individual user
+export async function insertUser(user: IUser) {
+  const { data } = await supabase.from("users").insert(user).select();
+  return data as any;
+}
+
+// delete individual user
+export async function deleteUser(id: number) {
+  const { data, error } = await supabase.from("users").delete().eq("id", id);
+  return data as any;
 }
